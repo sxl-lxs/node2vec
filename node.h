@@ -13,4 +13,6 @@ struct Node
     void insertEdge(int dst, int weight);
 
     void nodePreprocess();
+
+    int getDstNodeId(int seq);
 };

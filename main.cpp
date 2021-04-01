@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
     if (argc < 10)
         return 0;
     Graph G(argv);
+    //G.showGraph();
     G.preprocess();
     G.simulateWalk();
     return 0;

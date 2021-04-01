@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <math.h>
 #include "graph.h"
 #include "node.h"
 #include "edge.h"
@@ -71,10 +72,11 @@ void Graph::simulateWalk()
         {
             int *walk = randomWalk(j, walkLen);
             for (int k = 0; k < walkLen && walk[k] != -1; k++)
-                file << walk[i] << " ";
+                file << walk[k] << " ";
             file << endl;
             free(walk);
         }
+        file << endl;
     }
     file.close();
 }
@@ -85,7 +87,7 @@ int *Graph::randomWalk(int srcNodeId, int len)
     walk[0] = srcNodeId;
     for (int i = 1; i < len; i++)
     {
-        int src = walk[i - 1];
+        int src = walk[i - 1], index;
         if (vertex[src].outDegree == 0)
         {
             walk[i] = -1; //标记当前顶点出度为0
@@ -93,7 +95,7 @@ int *Graph::randomWalk(int srcNodeId, int len)
         }
         if (i == 1)
         {
-            walk[i] = aliasSample(vertex[src].transProbTable, vertex[src].aliasTable, vertex[src].outDegree);
+            index = aliasSample(vertex[src].transProbTable, vertex[src].aliasTable, vertex[src].outDegree);
         }
         else
         {
@@ -101,8 +103,9 @@ int *Graph::randomWalk(int srcNodeId, int len)
             Edge *cur = vertex[pre].firstEdge;
             while (cur->dstNodeId != src)
                 cur = cur->nextEdge;
-            walk[i] = aliasSample(cur->transProbTable, cur->aliasTable, vertex[src].outDegree);
+            index = aliasSample(cur->transProbTable, cur->aliasTable, vertex[src].outDegree);
         }
+        walk[i] = vertex[src].getDstNodeId(index);
     }
     return walk;
 }
@@ -110,8 +113,27 @@ int *Graph::randomWalk(int srcNodeId, int len)
 int Graph::aliasSample(double *transProbTable, int *aliasTable, int len)
 {
     int index = rand() % len;
-    if (transProbTable[index] > ((double)rand() / (double)RAND_MAX))
+    double randNUM = (double)rand() / (double)RAND_MAX;
+    if (transProbTable[index] > randNUM || fabs(transProbTable[index] - randNUM) < 1e-6)
         return index;
-    else
+    else {
+        if (aliasTable[index] == -1) {
+            cout << "ERROR: " << fixed << transProbTable[index] << "  " << randNUM << endl;
+            exit(-1);
+        }
         return aliasTable[index];
+    }
+}
+
+void Graph::showGraph()
+{
+    for(int i = 0; i < vertexNum; i++) {
+        cout << i << ": ";
+        Edge* cur = vertex[i].firstEdge;
+        while(cur != nullptr) {
+            cout << cur->dstNodeId << " ";
+            cur = cur->nextEdge;
+        }
+        cout << endl;
+    }
 }

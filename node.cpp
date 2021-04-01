@@ -25,6 +25,9 @@ void Node::nodePreprocess()
 {
     this->transProbTable = (double *)malloc(sizeof(double) * outDegree);
     this->aliasTable = (int *)malloc(sizeof(int) * outDegree);
+    for(int i = 0; i < outDegree; i++)
+        this->aliasTable[i] = -1;
+        
     Edge *cur = firstEdge;
     double sum = 0;
     //权值求和并记录到概率表
@@ -40,10 +43,10 @@ void Node::nodePreprocess()
     for (int i = 0; i < outDegree; i++)
     {
         this->transProbTable[i] = this->transProbTable[i] / sum * outDegree;
-        if (this->transProbTable[i] > 1.0)
-            larger.push(i);
-        else
+        if (this->transProbTable[i] < 1.0)
             smaller.push(i);
+        else
+            larger.push(i);
     }
 
     //设置别名表
@@ -52,9 +55,17 @@ void Node::nodePreprocess()
         int small = smaller.pop(), large = larger.pop();
         this->aliasTable[small] = large;
         this->transProbTable[large] -= 1.0 - this->transProbTable[small];
-        if (this->transProbTable[large] > 1.0)
-            larger.push(large);
-        else
+        if (this->transProbTable[large] < 1.0)
             smaller.push(large);
+        else
+            larger.push(large);
     }
+}
+
+int Node::getDstNodeId(int seq) {
+    Edge *cur = this->firstEdge;
+    for(int i = 0; i < seq; i++) {
+        cur = cur->nextEdge;
+    }
+    return cur->dstNodeId;
 }

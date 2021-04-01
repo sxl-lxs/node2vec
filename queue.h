@@ -11,8 +11,10 @@ struct queue
 
     ~queue() 
     {
-        if(q != nullptr)
+        if(q != nullptr) {
             free(q);
+            q = nullptr;
+        }
     }
 
     void push(int num)
