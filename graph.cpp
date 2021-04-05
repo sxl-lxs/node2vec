@@ -41,6 +41,9 @@ void Graph::initialGraph(char *filename)
                 weight = 1;
             }
             this->vertex[src].insertEdge(dst, weight);
+            if(!this->isDirected) {
+                this->vertex[dst].insertEdge(src, weight);
+            }
         }
     }
     file.close();
