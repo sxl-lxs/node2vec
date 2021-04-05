@@ -1,7 +1,7 @@
 #include <time.h>
 #include <stdlib.h>
-#include "graph.h"
 #include <iostream>
+#include "graph.h"
 
 using namespace std;
 
