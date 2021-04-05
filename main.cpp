@@ -1,6 +1,9 @@
 #include <time.h>
 #include <stdlib.h>
 #include "graph.h"
+#include <iostream>
+
+using namespace std;
 
 int main(int argc, char *argv[])
 {
@@ -10,7 +13,9 @@ int main(int argc, char *argv[])
         return 0;
     Graph G(argv);
     //G.showGraph();
+    cout << "initial finished!" << endl;
     G.preprocess();
+    cout << "preprocess finished!" << endl; 
     G.simulateWalk();
     return 0;
 }
