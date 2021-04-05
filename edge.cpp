@@ -3,14 +3,15 @@
 #include "graph.h"
 #include "node.h"
 #include "queue.h"
+#include "pmalloc.h"
 
 Edge::Edge(int dst, int weight) : dstNodeId(dst), weight(weight), nextEdge(nullptr) {}
 
 void Edge::edgePreprocess(int src, Graph *G)
 {
     int outDegree = G->vertex[dstNodeId].outDegree;
-    this->transProbTable = (double *)malloc(sizeof(double) * outDegree);
-    this->aliasTable = (int *)malloc(sizeof(int) * outDegree);
+    this->transProbTable = (double *)pmalloc(sizeof(double) * outDegree);
+    this->aliasTable = (int *)pmalloc(sizeof(int) * outDegree);
     for (int i = 0; i < outDegree; i++)
         this->aliasTable[i] = -1;
 
