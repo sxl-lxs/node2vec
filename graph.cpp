@@ -30,7 +30,8 @@ void Graph::initialGraph(char *filename)
         if (line[0] != '#')
         {
             istringstream str(line);
-            int src, dst, weight;
+            int src, dst;
+            float weight;
             if (this->isWeighted)
             {
                 str >> src >> dst >> weight;
@@ -114,10 +115,10 @@ int *Graph::randomWalk(int srcNodeId, int len)
     return walk;
 }
 
-int Graph::aliasSample(double *transProbTable, int *aliasTable, int len)
+int Graph::aliasSample(float *transProbTable, int *aliasTable, int len)
 {
     int index = rand() % len;
-    double randNUM = (double)rand() / (double)RAND_MAX;
+    float randNUM = (float)rand() / (float)RAND_MAX;
     if (transProbTable[index] > randNUM || fabs(transProbTable[index] - randNUM) < 1e-6)
         return index;
     else {

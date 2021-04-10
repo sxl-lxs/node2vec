@@ -27,7 +27,7 @@ struct Graph
     int *randomWalk(int src, int len);
 
     //采样的返回值是所给源顶点的第 i 个邻接点
-    int aliasSample(double *transProbTable, int *aliasTable, int len);
+    int aliasSample(float *transProbTable, int *aliasTable, int len);
 
     void showGraph();
 };

@@ -5,18 +5,18 @@
 #include "queue.h"
 #include "pmalloc.h"
 
-Edge::Edge(int dst, int weight) : dstNodeId(dst), weight(weight), nextEdge(nullptr) {}
+Edge::Edge(int dst, float weight) : dstNodeId(dst), weight(weight), nextEdge(nullptr) {}
 
 void Edge::edgePreprocess(int src, Graph *G)
 {
     int outDegree = G->vertex[dstNodeId].outDegree;
-    this->transProbTable = (double *)pmalloc(sizeof(double) * outDegree);
+    this->transProbTable = (float *)pmalloc(sizeof(float) * outDegree);
     this->aliasTable = (int *)pmalloc(sizeof(int) * outDegree);
     for (int i = 0; i < outDegree; i++)
         this->aliasTable[i] = -1;
 
     Edge *cur = G->vertex[dstNodeId].firstEdge;
-    double sum = 0;
+    float sum = 0;
     //权值求和并计算转移概率表
     for (int i = 0; i < outDegree; i++)
     {
