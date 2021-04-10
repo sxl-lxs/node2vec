@@ -4,13 +4,13 @@ struct Node
 {
     //int nodeId;
     int outDegree;
-    double *transProbTable;
+    float *transProbTable;
     int *aliasTable;
     Edge *firstEdge;
 
     Node();
 
-    void insertEdge(int dst, int weight);
+    void insertEdge(int dst, float weight);
 
     void nodePreprocess();
 

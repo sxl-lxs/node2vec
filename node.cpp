@@ -5,7 +5,7 @@
 
 Node::Node() : outDegree(0), firstEdge(nullptr) {}
 
-void Node::insertEdge(int dst, int weight)
+void Node::insertEdge(int dst, float weight)
 {
     if (firstEdge == nullptr)
     {
@@ -23,13 +23,13 @@ void Node::insertEdge(int dst, int weight)
 
 void Node::nodePreprocess()
 {
-    this->transProbTable = (double *)malloc(sizeof(double) * outDegree);
+    this->transProbTable = (float *)malloc(sizeof(float) * outDegree);
     this->aliasTable = (int *)malloc(sizeof(int) * outDegree);
     for(int i = 0; i < outDegree; i++)
         this->aliasTable[i] = -1;
         
     Edge *cur = firstEdge;
-    double sum = 0;
+    float sum = 0;
     //权值求和并记录到概率表
     for (int i = 0; i < outDegree; i++)
     {
