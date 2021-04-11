@@ -62,14 +62,14 @@ void Node::nodePreprocess()
             larger.push(large);
     }
 
-    if(!smaller.empty() && larger.empty()) {
-        std::cout << "smaller is not fixed!" << std::endl;
-        for (int i = 0; i < outDegree; i++)
-        {
-            std::cout << i << ": " << this->transProbTable[i] << "  " << this->aliasTable[i] << std::endl;
-        }
-        exit(-1);
-    }
+    // if(!smaller.empty() && larger.empty()) {
+    //     std::cout << "smaller is not fixed!" << std::endl;
+    //     for (int i = 0; i < outDegree; i++)
+    //     {
+    //         std::cout << i << ": " << this->transProbTable[i] << "  " << this->aliasTable[i] << std::endl;
+    //     }
+    //     exit(-1);
+    // }
 
 }
 
