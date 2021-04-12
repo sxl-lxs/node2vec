@@ -119,13 +119,12 @@ int Graph::aliasSample(float *transProbTable, int *aliasTable, int len)
     int index = rand() % len;
     int randNUM = rand();
     float probability = (float)randNUM / RAND_MAX;
-    if (transProbTable[index] > probability || fabs(transProbTable[index] - probability) <= (float)1e-6)
+    if (transProbTable[index] > probability || fabs(transProbTable[index] - probability) <= 1e-6)
         return index;
     else {
         if (aliasTable[index] == -1) {
             cout << "ERROR: " << fixed << transProbTable[index] << "  " << randNUM << "  " << probability << endl;
             return index;
-            // exit(-1);
         }
         return aliasTable[index];
     }
