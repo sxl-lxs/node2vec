@@ -60,6 +60,12 @@ void Node::nodePreprocess()
         else
             larger.push(large);
     }
+
+    while (!smaller.empty())
+    {
+        int small = smaller.pop();
+        this->aliasTable[small] = small;
+    }
 }
 
 int Node::getDstNodeId(int seq) {

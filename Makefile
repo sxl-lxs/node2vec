@@ -4,7 +4,7 @@ obj=main.o node.o edge.o graph.o
 
 main:$(obj)
 	g++ -o main $(obj) -I $(lib) -L $(so) -lnvmemul
-edge.o:
+edge.o:edge.cpp
 	gcc -c edge.cpp -I $(lib) -L $(so) -lnvmemul
 %.o:%.cpp
 	gcc -c $<

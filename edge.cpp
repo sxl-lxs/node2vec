@@ -59,6 +59,12 @@ void Edge::edgePreprocess(int src, Graph *G)
         else
             larger.push(large);
     }
+    
+    while (!smaller.empty())
+    {
+        int small = smaller.pop();
+        this->aliasTable[small] = small;
+    }
 }
 
 bool Edge::hasEdge(Node *vertex, int src, int dst)
