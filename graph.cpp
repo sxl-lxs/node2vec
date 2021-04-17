@@ -57,12 +57,12 @@ void Graph::preprocess()
     {
         this->vertex[i].nodePreprocess();
         //cout << "node " << i << "preprocess finished!" << endl;
-       // Edge *cur = this->vertex[i].firstEdge;
-        //while (cur != nullptr)
-        //{
-          // cur->edgePreprocess(i, this);
-          // cur = cur->nextEdge;
-        //}
+        Edge *cur = this->vertex[i].firstEdge;
+        while (cur != nullptr)
+        {
+          cur->edgePreprocess(i, this);
+          cur = cur->nextEdge;
+        }
         // cout << "node " << i << "preprocess finished!" << endl;
     }
 }
@@ -166,4 +166,28 @@ void Graph::countOutdegree()
     }
     cout << nodeDegree << "   " << edgeDegree;
     file.close();
+}
+
+void Graph::countMem()
+{
+    
+    int nodeDegree = 0, edgeDegree = 0;
+    size_t nodeSize = 0, edgeSize = 0;
+    for (int i = 0; i < this->vertexNum; i++)
+    {
+        nodeDegree += this->vertex[i].outDegree;
+        nodeSize += _msize(this->vertex[i].transProbTable);
+        nodeSize += _msize(this->vertex[i].aliasTable);
+
+        Edge *cur = this->vertex[i].firstEdge;
+        while (cur != nullptr)
+        {
+            edgeDegree += this->vertex[cur->dstNodeId].outDegree;
+            edgeSize += _msize(cur->transProbTable);
+            edgeSize += _msize(cur->aliasTable);
+            cur = cur->nextEdge;
+        }
+    }
+    cout << "nodeDegree: " << nodeDegree << "    edgeDegree: " << edgeDegree << endl;
+    cout << "nodeSize: " << nodeSize << "    edgeSize: " << edgeSize << endl;
 }

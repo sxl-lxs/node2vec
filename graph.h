@@ -32,4 +32,6 @@ struct Graph
     void showGraph();
 
     void countOutdegree();
+
+    void countMem();
 };
