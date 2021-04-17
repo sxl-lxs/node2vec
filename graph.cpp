@@ -171,7 +171,8 @@ void Graph::countOutdegree()
 
 void Graph::countMem()
 {
-    
+    ofstream file;
+    file.open("realSize.txt", ios::out);
     int nodeDegree = 0, edgeDegree = 0;
     size_t nodeSize = 0, edgeSize = 0;
     for (int i = 0; i < this->vertexNum; i++)
@@ -179,6 +180,7 @@ void Graph::countMem()
         nodeDegree += this->vertex[i].outDegree;
         nodeSize += malloc_usable_size(this->vertex[i].transProbTable);
         nodeSize += malloc_usable_size(this->vertex[i].aliasTable);
+        file << malloc_usable_size(this->vertex[i].transProbTable) << "/" << malloc_usable_size(this->vertex[i].aliasTable) << ": ";
 
         Edge *cur = this->vertex[i].firstEdge;
         while (cur != nullptr)
@@ -186,9 +188,13 @@ void Graph::countMem()
             edgeDegree += this->vertex[cur->dstNodeId].outDegree;
             edgeSize += malloc_usable_size(cur->transProbTable);
             edgeSize += malloc_usable_size(cur->aliasTable);
+
+            file << malloc_usable_size(cur->transProbTable) << "/" << malloc_usable_size(cur->aliasTable) << " ";
             cur = cur->nextEdge;
         }
+        file << endl;
     }
     cout << "nodeDegree: " << nodeDegree << "    edgeDegree: " << edgeDegree << endl;
     cout << "nodeSize: " << nodeSize << "    edgeSize: " << edgeSize << endl;
+    file.close();
 }
