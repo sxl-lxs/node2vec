@@ -7,6 +7,7 @@
 #include "graph.h"
 #include "node.h"
 #include "edge.h"
+#include <malloc.h>
 
 Graph::Graph(char **args) : vertexNum(atoi(args[1])), edgeNum(atoi(args[2])), walkLen(atoi(args[3])), walkNum(atoi(args[4])),
                             p(atoi(args[5])), q(atoi(args[6])), isDirected(atoi(args[7])), isWeighted(atoi(args[8]))
@@ -176,15 +177,15 @@ void Graph::countMem()
     for (int i = 0; i < this->vertexNum; i++)
     {
         nodeDegree += this->vertex[i].outDegree;
-        nodeSize += _msize(this->vertex[i].transProbTable);
-        nodeSize += _msize(this->vertex[i].aliasTable);
+        nodeSize += malloc_usable_size(this->vertex[i].transProbTable);
+        nodeSize += malloc_usable_size(this->vertex[i].aliasTable);
 
         Edge *cur = this->vertex[i].firstEdge;
         while (cur != nullptr)
         {
             edgeDegree += this->vertex[cur->dstNodeId].outDegree;
-            edgeSize += _msize(cur->transProbTable);
-            edgeSize += _msize(cur->aliasTable);
+            edgeSize += malloc_usable_size(cur->transProbTable);
+            edgeSize += malloc_usable_size(cur->aliasTable);
             cur = cur->nextEdge;
         }
     }
