@@ -57,12 +57,12 @@ void Graph::preprocess()
     {
         this->vertex[i].nodePreprocess();
         //cout << "node " << i << "preprocess finished!" << endl;
-        // Edge *cur = this->vertex[i].firstEdge;
-        // while (cur != nullptr)
-        // {
-        //     cur->edgePreprocess(i, this);
-        //     cur = cur->nextEdge;
-        // }
+       // Edge *cur = this->vertex[i].firstEdge;
+        //while (cur != nullptr)
+        //{
+          // cur->edgePreprocess(i, this);
+          // cur = cur->nextEdge;
+        //}
         // cout << "node " << i << "preprocess finished!" << endl;
     }
 }

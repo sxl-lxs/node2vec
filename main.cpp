@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include "graph.h"
+#include <unistd.h>
 
 using namespace std;
 
@@ -16,7 +17,7 @@ int main(int argc, char *argv[])
     // G.showGraph();
     cout << "initial finished!" << endl;
     G.preprocess();
-    system("read");
+    sleep(60);
     // cout << "preprocess finished!" << endl; 
     // G.simulateWalk();
     // cout << "simulateWalk finished!" << endl;
