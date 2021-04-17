@@ -12,11 +12,13 @@ int main(int argc, char *argv[])
     if (argc < 10)
         return 0;
     Graph G(argv);
-    //G.showGraph();
+    // G.countOutdegree();
+    // G.showGraph();
     cout << "initial finished!" << endl;
     G.preprocess();
-    cout << "preprocess finished!" << endl; 
-    G.simulateWalk();
-    cout << "simulateWalk finished!" << endl;
+    system("read");
+    // cout << "preprocess finished!" << endl; 
+    // G.simulateWalk();
+    // cout << "simulateWalk finished!" << endl;
     return 0;
 }

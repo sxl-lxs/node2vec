@@ -30,4 +30,6 @@ struct Graph
     int aliasSample(float *transProbTable, int *aliasTable, int len);
 
     void showGraph();
+
+    void countOutdegree();
 };

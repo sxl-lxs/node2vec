@@ -56,12 +56,14 @@ void Graph::preprocess()
     for (int i = 0; i < this->vertexNum; i++)
     {
         this->vertex[i].nodePreprocess();
-        Edge *cur = this->vertex[i].firstEdge;
-        while (cur != nullptr)
-        {
-            cur->edgePreprocess(i, this);
-            cur = cur->nextEdge;
-        }
+        //cout << "node " << i << "preprocess finished!" << endl;
+        // Edge *cur = this->vertex[i].firstEdge;
+        // while (cur != nullptr)
+        // {
+        //     cur->edgePreprocess(i, this);
+        //     cur = cur->nextEdge;
+        // }
+        // cout << "node " << i << "preprocess finished!" << endl;
     }
 }
 
@@ -141,4 +143,27 @@ void Graph::showGraph()
         }
         cout << endl;
     }
+}
+
+void Graph::countOutdegree()
+{
+    ofstream file;
+    file.open("nodeOutdegree.txt", ios::out);
+    int nodeDegree = 0, edgeDegree = 0;
+    for (int i = 0; i < this->vertexNum; i++)
+    {
+        file << this->vertex[i].outDegree << " --- ";
+        nodeDegree += this->vertex[i].outDegree;
+
+        Edge *cur = this->vertex[i].firstEdge;
+        while (cur != nullptr)
+        {
+            edgeDegree += this->vertex[cur->dstNodeId].outDegree;
+            file << this->vertex[cur->dstNodeId].outDegree << " ";
+            cur = cur->nextEdge;
+        }
+        file << endl;
+    }
+    cout << nodeDegree << "   " << edgeDegree;
+    file.close();
 }
