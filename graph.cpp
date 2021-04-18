@@ -182,7 +182,8 @@ void Graph::countMem()
         nodeSize += malloc_usable_size(this->vertex[i].transProbTable);
         nodeSize += malloc_usable_size(this->vertex[i].aliasTable);
 
-        nodeExtra += malloc_usable_size(this->vertex[i].transProbTable) - (this->vertex[i].outDegree) * (sizeof(float));
+        nodeExtra += (malloc_usable_size(this->vertex[i].transProbTable) - (this->vertex[i].outDegree) * (sizeof(float)));
+        nodeExtra += (malloc_usable_size(this->vertex[i].aliasTable) - (this->vertex[i].outDegree) * (sizeof(int)));
 
         file << malloc_usable_size(this->vertex[i].transProbTable) << "/" << malloc_usable_size(this->vertex[i].aliasTable) << ": ";
 
@@ -193,7 +194,8 @@ void Graph::countMem()
             edgeSize += malloc_usable_size(cur->transProbTable);
             edgeSize += malloc_usable_size(cur->aliasTable);
 
-            edgeExtra += malloc_usable_size(cur->transProbTable) - (this->vertex[cur->dstNodeId].outDegree) * (sizeof(float));
+            edgeExtra += (malloc_usable_size(cur->transProbTable) - (this->vertex[cur->dstNodeId].outDegree) * (sizeof(float)));
+            edgeExtra += (malloc_usable_size(cur->aliasTable) - (this->vertex[cur->dstNodeId].outDegree) * (sizeof(int)));
 
             file << malloc_usable_size(cur->transProbTable) << "/" << malloc_usable_size(cur->aliasTable) << " ";
             cur = cur->nextEdge;
@@ -201,7 +203,7 @@ void Graph::countMem()
         file << endl;
     }
     cout << "nodeDegree: " << nodeDegree << "    edgeDegree: " << edgeDegree << endl;
-    cout << "nodeCalSize: " << (nodeDegree * (sizeof(float))) << "    edgeCalSize: " << (edgeDegree * (sizeof(float))) << endl;
+    cout << "nodeCalSize: " << (nodeDegree * (sizeof(float)) + nodeDegree * (sizeof(int))) << "    edgeCalSize: " << (edgeDegree * (sizeof(float)) + edgeDegree * (sizeof(int))) << endl;
     cout << "nodeExtra: " << nodeExtra << "    edgeExtra: " << edgeExtra << endl;
     cout << "nodeSize: " << nodeSize << "    edgeSize: " << edgeSize << endl;
     file.close();
