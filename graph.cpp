@@ -150,7 +150,7 @@ void Graph::countOutdegree()
 {
     ofstream file;
     file.open("nodeOutdegree.txt", ios::out);
-    int nodeDegree = 0, edgeDegree = 0;
+    size_t nodeDegree = 0, edgeDegree = 0;
     for (int i = 0; i < this->vertexNum; i++)
     {
         file << this->vertex[i].outDegree << ": ";
@@ -165,7 +165,7 @@ void Graph::countOutdegree()
         }
         file << endl;
     }
-    // cout << nodeDegree << "   " << edgeDegree;
+    cout << "nodeDegree: " << nodeDegree << "    edgeDegree: " << edgeDegree << endl;
     file.close();
 }
 
