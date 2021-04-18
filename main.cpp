@@ -19,7 +19,6 @@ int main(int argc, char *argv[])
     G.countOutdegree();
     G.countMem();
 
-    sleep(60);
     cout << "preprocess finished!" << endl; 
     // G.simulateWalk();
     // cout << "simulateWalk finished!" << endl;
