@@ -153,7 +153,7 @@ void Graph::countOutdegree()
     int nodeDegree = 0, edgeDegree = 0;
     for (int i = 0; i < this->vertexNum; i++)
     {
-        file << this->vertex[i].outDegree << " --- ";
+        file << this->vertex[i].outDegree << ": ";
         nodeDegree += this->vertex[i].outDegree;
 
         Edge *cur = this->vertex[i].firstEdge;
@@ -165,7 +165,7 @@ void Graph::countOutdegree()
         }
         file << endl;
     }
-    cout << nodeDegree << "   " << edgeDegree;
+    // cout << nodeDegree << "   " << edgeDegree;
     file.close();
 }
 
@@ -175,11 +175,15 @@ void Graph::countMem()
     file.open("realSize.txt", ios::out);
     int nodeDegree = 0, edgeDegree = 0;
     size_t nodeSize = 0, edgeSize = 0;
+    size_t nodeExtra = 0, edgeExtra = 0;
     for (int i = 0; i < this->vertexNum; i++)
     {
         nodeDegree += this->vertex[i].outDegree;
         nodeSize += malloc_usable_size(this->vertex[i].transProbTable);
         nodeSize += malloc_usable_size(this->vertex[i].aliasTable);
+
+        nodeExtra += malloc_usable_size(this->vertex[i].transProbTable) - (this->vertex[i].outDegree) * (sizeof(float));
+
         file << malloc_usable_size(this->vertex[i].transProbTable) << "/" << malloc_usable_size(this->vertex[i].aliasTable) << ": ";
 
         Edge *cur = this->vertex[i].firstEdge;
@@ -189,12 +193,16 @@ void Graph::countMem()
             edgeSize += malloc_usable_size(cur->transProbTable);
             edgeSize += malloc_usable_size(cur->aliasTable);
 
+            edgeExtra += malloc_usable_size(cur->transProbTable) - (this->vertex[cur->dstNodeId].outDegree) * (sizeof(float));
+
             file << malloc_usable_size(cur->transProbTable) << "/" << malloc_usable_size(cur->aliasTable) << " ";
             cur = cur->nextEdge;
         }
         file << endl;
     }
     cout << "nodeDegree: " << nodeDegree << "    edgeDegree: " << edgeDegree << endl;
+    cout << "nodeCalSize: " << (nodeDegree * (sizeof(float))) << "    edgeCalSize: " << (edgeDegree * (sizeof(float))) << endl;
+    cout << "nodeExtra: " << nodeExtra << "    edgeExtra: " << edgeExtra << endl;
     cout << "nodeSize: " << nodeSize << "    edgeSize: " << edgeSize << endl;
     file.close();
 }
