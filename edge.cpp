@@ -11,7 +11,7 @@ void Edge::edgePreprocess(int src, Graph *G)
 {
     int outDegree = G->vertex[dstNodeId].outDegree;
     this->transProbTable = (float *)malloc(sizeof(float) * outDegree);
-    this->aliasTable = (int *)pmalloc(sizeof(int) * outDegree);
+    this->aliasTable = (int *)malloc(sizeof(int) * outDegree);
     for (int i = 0; i < outDegree; i++)
         this->aliasTable[i] = -1;
 
