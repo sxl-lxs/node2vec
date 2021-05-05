@@ -124,11 +124,11 @@ int Graph::aliasSample(float *transProbTable, int *aliasTable, int len)
         return index;
     else
     {
-        if (aliasTable[index] == -1)
-        {
-            cout << "ERROR: " << fixed << transProbTable[index] << "  " << randNUM << "  " << probability << endl;
-            return index;
-        }
+        // if (aliasTable[index] == -1)
+        // {
+        //     cout << "ERROR: " << fixed << transProbTable[index] << "  " << randNUM << "  " << probability << endl;
+        //     return index;
+        // }
         return aliasTable[index];
     }
 }
