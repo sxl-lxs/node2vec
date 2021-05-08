@@ -3,7 +3,7 @@
 #include "edge.h"
 #include "queue.h"
 
-Node::Node() : outDegree(0), firstEdge(nullptr) {}
+Node::Node() : outDegree(0), inValue(0.0), firstEdge(nullptr) {}
 
 void Node::insertEdge(int dst, float weight)
 {

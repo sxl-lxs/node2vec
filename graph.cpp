@@ -8,9 +8,10 @@
 #include "node.h"
 #include "edge.h"
 #include <malloc.h>
+#include <queue>
 
 Graph::Graph(char **args) : vertexNum(atoi(args[1])), edgeNum(atoi(args[2])), walkLen(atoi(args[3])), walkNum(atoi(args[4])),
-                            p(atoi(args[5])), q(atoi(args[6])), isDirected(atoi(args[7])), isWeighted(atoi(args[8]))
+                            p(atoi(args[5])), q(atoi(args[6])), isDirected(atoi(args[7])), isWeighted(atoi(args[8])), ratio(atof(args[11]))
 {
     vertex = new Node[vertexNum];
     initialGraph(args[9]);
@@ -49,6 +50,36 @@ void Graph::initialGraph(char *filename)
         }
     }
     file.close();
+}
+
+void Graph::setInvalue() {
+    for (int i = 0; i < vertexNum; i++)
+    {
+        Edge *cur = vertex[i].firstEdge;
+        while (cur != nullptr)
+        {
+            this->vertex[cur->dstNodeId].inValue += 1 / this->vertex[i].outDegree;
+            cur = cur->nextEdge;
+        }
+    }
+}
+
+void Graph::getStdInvalue()
+{
+    int vertexSum = this->vertexNum * ratio;
+    priority_queue<double, vector<double>, greater<double>> q;
+    for(int i = 0; i < this->vertexNum; i++) {
+        if(q.size() < vertexSum) {
+            q.push(vertex[i].inValue);
+        }
+        else {
+            if(q.top() < vertex[i].inValue) {
+                q.pop();
+                q.push(vertex[i].inValue);
+            }
+        }
+    }
+    this->stdValue = q.top();
 }
 
 void Graph::preprocess()

@@ -4,6 +4,7 @@ struct Node
 {
     //int nodeId;
     int outDegree;
+    double inValue;
     float *transProbTable;
     int *aliasTable;
     Edge *firstEdge;

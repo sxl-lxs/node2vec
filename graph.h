@@ -10,6 +10,7 @@ struct Graph
     int p, q;
     bool isDirected, isWeighted;
     Node *vertex;
+    double stdValue, ratio;
 
     //根据参数设置属性并申请顶点集空间
     Graph(char** args);
@@ -30,6 +31,12 @@ struct Graph
     int aliasSample(float *transProbTable, int *aliasTable, int len);
 
     void showGraph();
+
+    //设置每个顶点的inValue
+    void setInvalue();
+
+    //根据设置的比例来比较所有顶点的inValue值，获得基准inValue
+    void getStdInvalue();
 
     void countMemLoc();
 };
