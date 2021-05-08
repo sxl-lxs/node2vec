@@ -172,7 +172,7 @@ void Graph::countOutdegree()
 void Graph::countMem()
 {
     ofstream file;
-    file.open("realSize.txt", ios::out);
+    // file.open("realSize.txt", ios::out);
     size_t nodeDegree = 0, edgeDegree = 0;
     size_t nodeSize = 0, edgeSize = 0;
     size_t nodeExtra = 0, edgeExtra = 0;
@@ -189,7 +189,7 @@ void Graph::countMem()
         nodeExtra += (malloc_usable_size(this->vertex[i].transProbTable) - (this->vertex[i].outDegree) * (sizeof(float)));
         nodeExtra += (malloc_usable_size(this->vertex[i].aliasTable) - (this->vertex[i].outDegree) * (sizeof(int)));
 
-        file << malloc_usable_size(this->vertex[i].transProbTable) << "/" << malloc_usable_size(this->vertex[i].aliasTable) << ": ";
+        // file << malloc_usable_size(this->vertex[i].transProbTable) << "/" << malloc_usable_size(this->vertex[i].aliasTable) << ": ";
 
         Edge *cur = this->vertex[i].firstEdge;
         while (cur != nullptr)
@@ -204,15 +204,15 @@ void Graph::countMem()
             edgeExtra += (malloc_usable_size(cur->transProbTable) - (this->vertex[cur->dstNodeId].outDegree) * (sizeof(float)));
             edgeExtra += (malloc_usable_size(cur->aliasTable) - (this->vertex[cur->dstNodeId].outDegree) * (sizeof(int)));
 
-            file << malloc_usable_size(cur->transProbTable) << "/" << malloc_usable_size(cur->aliasTable) << " ";
+            // file << malloc_usable_size(cur->transProbTable) << "/" << malloc_usable_size(cur->aliasTable) << " ";
             cur = cur->nextEdge;
         }
-        file << endl;
+        // file << endl;
     }
     cout << "nodeDegree: " << nodeDegree << "    edgeDegree: " << edgeDegree << endl;
     cout << "nodeCalSize: " << (nodeDegree * (sizeof(float)) + nodeDegree * (sizeof(int))) << "    edgeCalSize: " << (edgeDegree * (sizeof(float)) + edgeDegree * (sizeof(int))) << endl;
     cout << "nodeApply: " << nodeApply << "    edgeApply: " << edgeApply << endl;
     cout << "nodeExtra: " << nodeExtra << "    edgeExtra: " << edgeExtra << endl;
     cout << "nodeSize: " << nodeSize << "    edgeSize: " << edgeSize << endl;
-    file.close();
+    // file.close();
 }

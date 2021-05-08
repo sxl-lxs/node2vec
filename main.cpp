@@ -16,8 +16,8 @@ int main(int argc, char *argv[])
     // G.showGraph();
     cout << "initial finished!" << endl;
     // G.preprocess();
-    G.countOutdegree();
-    // G.countMem();
+    // G.countOutdegree();
+    G.countMem();
 
     cout << "preprocess finished!" << endl; 
     // G.simulateWalk();
