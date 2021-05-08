@@ -11,10 +11,12 @@
 #include <queue>
 
 Graph::Graph(char **args) : vertexNum(atoi(args[1])), edgeNum(atoi(args[2])), walkLen(atoi(args[3])), walkNum(atoi(args[4])),
-                            p(atoi(args[5])), q(atoi(args[6])), isDirected(atoi(args[7])), isWeighted(atoi(args[8])), ratio(atof(args[11]))
+                            p(atoi(args[5])), q(atoi(args[6])), isDirected(atoi(args[7])), isWeighted(atoi(args[8])), ratio(atof(args[10]))
 {
     vertex = new Node[vertexNum];
     initialGraph(args[9]);
+    setInvalue();
+    getStdInvalue();
 }
 
 // void *operator new(size_t size)
