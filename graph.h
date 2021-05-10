@@ -11,6 +11,7 @@ struct Graph
     bool isDirected, isWeighted;
     Node *vertex;
     double stdValue, ratio;
+    unsigned int hit, miss;
 
     //根据参数设置属性并申请顶点集空间
     Graph(char** args);

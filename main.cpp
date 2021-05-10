@@ -20,5 +20,6 @@ int main(int argc, char *argv[])
     // cout << "countMemLoc finished!" << endl;
     G.simulateWalk();
     cout << "simulateWalk finished!" << endl;
+    cout << "hit times: " << G.hit << "    miss times: " << G.miss << endl;
     return 0;
 }

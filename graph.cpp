@@ -11,7 +11,8 @@
 #include <queue>
 
 Graph::Graph(char **args) : vertexNum(atoi(args[1])), edgeNum(atoi(args[2])), walkLen(atoi(args[3])), walkNum(atoi(args[4])),
-                            p(atoi(args[5])), q(atoi(args[6])), isDirected(atoi(args[7])), isWeighted(atoi(args[8])), ratio(atof(args[10]))
+                            p(atoi(args[5])), q(atoi(args[6])), isDirected(atoi(args[7])), isWeighted(atoi(args[8])), 
+                            ratio(atof(args[10])), hit(0), miss(0)
 {
     vertex = new Node[vertexNum];
     initialGraph(args[9]);
@@ -144,6 +145,12 @@ int *Graph::randomWalk(int srcNodeId, int len)
             index = aliasSample(cur->transProbTable, cur->aliasTable, vertex[src].outDegree);
         }
         walk[i] = vertex[src].getDstNodeId(index);
+        if(vertex[walk[i]].inValue >= this->stdValue) {
+            hit++;
+        } 
+        else {
+            miss++;
+        }
     }
     return walk;
 }
