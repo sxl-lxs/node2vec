@@ -61,7 +61,7 @@ void Graph::setInvalue() {
         Edge *cur = vertex[i].firstEdge;
         while (cur != nullptr)
         {
-            this->vertex[cur->dstNodeId].inValue += 1 / this->vertex[i].outDegree;
+            this->vertex[cur->dstNodeId].inValue += 1.0 / this->vertex[i].outDegree;
             cur = cur->nextEdge;
         }
     }
