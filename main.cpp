@@ -17,10 +17,10 @@ int main(int argc, char *argv[])
     G.preprocess();
     cout << "preprocess finished!" << endl;
 
-    G.countMemLoc();
-    cout << "countMemLoc finished!" << endl;
-
     G.simulateWalk();
     cout << "simulateWalk finished!" << endl;
+
+    G.countMemLoc();
+    cout << "countMemLoc finished!" << endl;
     return 0;
 }
