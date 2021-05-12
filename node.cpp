@@ -25,8 +25,8 @@ void Node::nodePreprocess()
 {
     this->transProbTable = (float *)malloc(sizeof(float) * outDegree);
     this->aliasTable = (int *)malloc(sizeof(int) * outDegree);
-    for(int i = 0; i < outDegree; i++)
-        this->aliasTable[i] = -1;
+    // for(int i = 0; i < outDegree; i++)
+    //     this->aliasTable[i] = -1;
         
     Edge *cur = firstEdge;
     float sum = 0;

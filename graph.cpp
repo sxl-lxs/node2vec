@@ -163,10 +163,10 @@ int Graph::aliasSample(float *transProbTable, int *aliasTable, int len)
     if (transProbTable[index] > probability || fabs(transProbTable[index] - probability) <= 1e-6)
         return index;
     else {
-        if (aliasTable[index] == -1) {
-            cout << "ERROR: " << fixed << transProbTable[index] << "  " << randNUM << "  " << probability << endl;
-            return index;
-        }
+        // if (aliasTable[index] == -1) {
+        //     cout << "ERROR: " << fixed << transProbTable[index] << "  " << randNUM << "  " << probability << endl;
+        //     return index;
+        // }
         return aliasTable[index];
     }
 }
@@ -189,8 +189,8 @@ void Graph::countMemLoc()
     // ofstream file;
     // file.open("realSize.txt", ios::out);
     size_t nodeDegree = 0, edgeDegree = 0; //顶点和边的总度数
-    size_t nodeSize = 0, edgeSize = 0;     //实际占用空间大小
-    size_t nodeExtra = 0, edgeExtra = 0;   //由于malloc分配原理所导致的额外空间大小
+    // size_t nodeSize = 0, edgeSize = 0;     //实际占用空间大小
+    // size_t nodeExtra = 0, edgeExtra = 0;   //由于malloc分配原理所导致的额外空间大小
     size_t nodeApply = 0, edgeApply = 0;   //根据度数计算得到的，理论大小值
 
     size_t dramSize = 0, nvmSize = 0;
@@ -199,15 +199,15 @@ void Graph::countMemLoc()
 
     for (int i = 0; i < this->vertexNum; i++)
     {
-        nodeDegree += this->vertex[i].outDegree;
-        nodeSize += malloc_usable_size(this->vertex[i].transProbTable);
-        nodeSize += malloc_usable_size(this->vertex[i].aliasTable);
+        nodeDegree += this->vertex[i].outDegree;    //统计顶点的出度
+        // nodeSize += malloc_usable_size(this->vertex[i].transProbTable);
+        // nodeSize += malloc_usable_size(this->vertex[i].aliasTable);
 
         nodeApply += (this->vertex[i].outDegree) * (sizeof(float));
         nodeApply += (this->vertex[i].outDegree) * (sizeof(int));
 
-        nodeExtra += (malloc_usable_size(this->vertex[i].transProbTable) - (this->vertex[i].outDegree) * (sizeof(float)));
-        nodeExtra += (malloc_usable_size(this->vertex[i].aliasTable) - (this->vertex[i].outDegree) * (sizeof(int)));
+        // nodeExtra += (malloc_usable_size(this->vertex[i].transProbTable) - (this->vertex[i].outDegree) * (sizeof(float)));
+        // nodeExtra += (malloc_usable_size(this->vertex[i].aliasTable) - (this->vertex[i].outDegree) * (sizeof(int)));
 
         // file << malloc_usable_size(this->vertex[i].transProbTable) << "/" << malloc_usable_size(this->vertex[i].aliasTable) << ": ";
 
@@ -216,15 +216,26 @@ void Graph::countMemLoc()
         {
             edgeSumSize += malloc_usable_size(cur); //边结点大小
 
-            edgeDegree += this->vertex[cur->dstNodeId].outDegree;
-            edgeSize += malloc_usable_size(cur->transProbTable);
-            edgeSize += malloc_usable_size(cur->aliasTable);
+            edgeDegree += this->vertex[cur->dstNodeId].outDegree;   //统计边(弧头顶点)的度数
+            // edgeSize += malloc_usable_size(cur->transProbTable);
+            // edgeSize += malloc_usable_size(cur->aliasTable);
 
-            edgeApply += (this->vertex[cur->dstNodeId].outDegree) * (sizeof(float));
-            edgeApply += (this->vertex[cur->dstNodeId].outDegree) * (sizeof(int));
+            if(this->vertex[i].inValue >= this->stdValue) {
+                dramSize += (this->vertex[cur->dstNodeId].outDegree) * (sizeof(float));
+                dramSize += (this->vertex[cur->dstNodeId].outDegree) * (sizeof(int));
+            }
+            else {
+                nvmSize += (this->vertex[cur->dstNodeId].outDegree) * (sizeof(float));
+                nvmSize += (this->vertex[cur->dstNodeId].outDegree) * (sizeof(int));
+            }
 
-            edgeExtra += (malloc_usable_size(cur->transProbTable) - (this->vertex[cur->dstNodeId].outDegree) * (sizeof(float)));
-            edgeExtra += (malloc_usable_size(cur->aliasTable) - (this->vertex[cur->dstNodeId].outDegree) * (sizeof(int)));
+
+
+            // edgeApply += (this->vertex[cur->dstNodeId].outDegree) * (sizeof(float));
+            // edgeApply += (this->vertex[cur->dstNodeId].outDegree) * (sizeof(int));
+
+            // edgeExtra += (malloc_usable_size(cur->transProbTable) - (this->vertex[cur->dstNodeId].outDegree) * (sizeof(float)));
+            // edgeExtra += (malloc_usable_size(cur->aliasTable) - (this->vertex[cur->dstNodeId].outDegree) * (sizeof(int)));
 
             // file << malloc_usable_size(cur->transProbTable) << "/" << malloc_usable_size(cur->aliasTable) << " ";
             cur = cur->nextEdge;
@@ -232,18 +243,18 @@ void Graph::countMemLoc()
         // file << endl;
     }
 
-    dramSize = verSumSize + edgeSumSize + nodeSize;
-    nvmSize = edgeSize;
+    dramSize += verSumSize + edgeSumSize + nodeApply;
+    // nvmSize = edgeSize;
 
     cout << "nodeDegree: " << nodeDegree << "    edgeDegree: " << edgeDegree << endl;
-    cout << "nodeCalSize: " << (nodeDegree * (sizeof(float)) + nodeDegree * (sizeof(int))) << "    edgeCalSize: " << (edgeDegree * (sizeof(float)) + edgeDegree * (sizeof(int))) << endl;
-    cout << "nodeApply(cal): " << nodeApply << "    edgeApply(cal): " << edgeApply << endl;
-    cout << "nodeExtra: " << nodeExtra << "    edgeExtra: " << edgeExtra << endl << endl;
+    // cout << "nodeCalSize: " << (nodeDegree * (sizeof(float)) + nodeDegree * (sizeof(int))) << "    edgeCalSize: " << (edgeDegree * (sizeof(float)) + edgeDegree * (sizeof(int))) << endl;
+    // cout << "nodeApply(cal): " << nodeApply << "    edgeApply(cal): " << edgeApply << endl;
+    // cout << "nodeExtra: " << nodeExtra << "    edgeExtra: " << edgeExtra << endl << endl;
 
     cout << "verSetSize: " << verSumSize << "    edgeNodeSumSize: " << edgeSumSize << endl;
-    cout << "nodeTableSize: " << nodeSize << "    edgeTableSize: " << edgeSize << endl;
+    // cout << "nodeTableSize: " << nodeSize << "    edgeTableSize: " << edgeSize << endl;
     cout << "dramSize: " << dramSize << "   nvmSize: " << nvmSize << endl;
 
-    cout << "[version2]dramSize: " << (dramSize + edgeSize / 2) << "   nvmSize: " << (edgeSize / 2) << endl;
+    // cout << "[version2]dramSize: " << (dramSize + edgeSize / 2) << "   nvmSize: " << (edgeSize / 2) << endl;
     // file.close();
 }

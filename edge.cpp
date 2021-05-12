@@ -20,8 +20,8 @@ void Edge::edgePreprocess(int src, Graph *G)
         this->aliasTable = (int *)pmalloc(sizeof(int) * outDegree);
     }
 
-    for (int i = 0; i < outDegree; i++)
-        this->aliasTable[i] = -1;
+    // for (int i = 0; i < outDegree; i++)
+    //     this->aliasTable[i] = -1;
 
     Edge *cur = G->vertex[dstNodeId].firstEdge;
     float sum = 0;
