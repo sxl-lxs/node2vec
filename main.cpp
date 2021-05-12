@@ -16,9 +16,9 @@ int main(int argc, char *argv[])
     cout << "initial finished!" << endl;
     G.preprocess();
     cout << "preprocess finished!" << endl;
-    G.countMemLoc();
-    cout << "countMemLoc finished!" << endl;
     G.simulateWalk();
     cout << "simulateWalk finished!" << endl;
+    G.countMemLoc();
+    cout << "countMemLoc finished!" << endl;
     return 0;
 }
