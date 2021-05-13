@@ -18,6 +18,7 @@ Graph::Graph(char **args) : vertexNum(atoi(args[1])), edgeNum(atoi(args[2])), wa
     initialGraph(args[9]);
     setInvalue();
     setStdInvalue();
+    setMemLocTag();
 }
 
 // void *operator new(size_t size)
