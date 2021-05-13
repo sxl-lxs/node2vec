@@ -17,7 +17,7 @@ Graph::Graph(char **args) : vertexNum(atoi(args[1])), edgeNum(atoi(args[2])), wa
     vertex = new Node[vertexNum];
     initialGraph(args[9]);
     setInvalue();
-    getStdInvalue();
+    setStdInvalue();
 }
 
 // void *operator new(size_t size)
