@@ -258,3 +258,16 @@ void Graph::countMemLoc()
     // cout << "[version2]dramSize: " << (dramSize + edgeSize / 2) << "   nvmSize: " << (edgeSize / 2) << endl;
     // file.close();
 }
+
+void Graph::countDramVertex() {
+    int greaterCount = 0, sameCount = 0;
+    for (int i = 0; i < vertexNum; i++)
+    {
+        if(vertex[i].inValue > this->stdValue)
+            greaterCount++;
+        else if(vertex[i].inValue == this->stdValue)
+            sameCount++;
+    }
+    cout << "greaterCount: " << greaterCount << "    sameCount: " << sameCount << endl;
+    cout << "sumCount: " << greaterCount + sameCount << "    stdCount: " << (int)(vertexNum * ratio) << endl;
+}

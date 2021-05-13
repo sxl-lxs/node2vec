@@ -40,4 +40,6 @@ struct Graph
     void getStdInvalue();
 
     void countMemLoc();
+
+    void countDramVertex();
 };

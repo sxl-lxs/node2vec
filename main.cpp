@@ -23,5 +23,7 @@ int main(int argc, char *argv[])
     cout << "hit times: " << G.hit << "    miss times: " << G.miss << endl;
     G.countMemLoc();
     cout << "countMemLoc finished!" << endl;
+    G.countDramVertex();
+    cout << "countDramVertex finished!" << endl;
     return 0;
 }
