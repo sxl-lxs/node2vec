@@ -12,7 +12,7 @@
 
 Graph::Graph(char **args) : vertexNum(atoi(args[1])), edgeNum(atoi(args[2])), walkLen(atoi(args[3])), walkNum(atoi(args[4])),
                             p(atoi(args[5])), q(atoi(args[6])), isDirected(atoi(args[7])), isWeighted(atoi(args[8])), 
-                            ratio(atof(args[10])), hit(0), miss(0)
+                            vertexRatio(atof(args[10])), edgeRatio(atof(args[11])), hit(0), miss(0)
 {
     vertex = new Node[vertexNum];
     initialGraph(args[9]);
@@ -67,9 +67,9 @@ void Graph::setInvalue() {
     }
 }
 
-void Graph::getStdInvalue()
+void Graph::setStdInvalue()
 {
-    int vertexSum = this->vertexNum * ratio;
+    int vertexSum = this->vertexNum * vertexRatio;
     priority_queue<double, vector<double>, greater<double>> q;
     for(int i = 0; i < this->vertexNum; i++) {
         if(q.size() < vertexSum) {
@@ -83,6 +83,63 @@ void Graph::getStdInvalue()
         }
     }
     this->stdValue = q.top();
+}
+
+void Graph::setMemLocTag()
+{
+    for (int i = 0; i < vertexNum; i++)
+    {
+        //无权图则不考虑权值
+        if(!this->isWeighted) {
+            Edge *cur = vertex[i].firstEdge;
+            while (cur != nullptr)
+            {
+                cur->isInDram = (vertex[i].inValue >= this->stdValue);
+                cur = cur->nextEdge;
+            }
+        }
+        else {
+            //inValue优先 并结合weight值
+            if (vertex[i].inValue >= this->stdValue)
+            {
+                Edge *cur = vertex[i].firstEdge;
+                while (cur != nullptr)
+                {
+                    cur->isInDram = true;
+                    cur = cur->nextEdge;
+                }
+            }
+            else {
+                int edgeSum = this->vertex[i].outDegree * edgeRatio;
+                priority_queue<float, vector<float>, greater<float>> q;
+                Edge *cur = vertex[i].firstEdge;
+                while (cur != nullptr)
+                {
+                    if (q.size() < edgeSum)
+                    {
+                        q.push(cur->weight);
+                    }
+                    else
+                    {
+                        if (q.top() < cur->weight)
+                        {
+                            q.pop();
+                            q.push(cur->weight);
+                        }
+                    }
+                    cur = cur->nextEdge;
+                }
+
+                float stdWeight = q.top();  //小顶堆的top即为用于比较的标准值
+                cur = vertex[i].firstEdge;
+                while (cur != nullptr)
+                {
+                    cur->isInDram = (cur->weight >= stdWeight);
+                    cur = cur->nextEdge;
+                }
+            }
+        }
+    }
 }
 
 void Graph::preprocess()
@@ -142,15 +199,18 @@ int *Graph::randomWalk(int srcNodeId, int len)
             Edge *cur = vertex[pre].firstEdge;
             while (cur->dstNodeId != src)
                 cur = cur->nextEdge;
+
+            //判断是否命中dram
+            if (cur->isInDram) {
+                hit++;
+            }
+            else {
+                miss++;
+            }
+
             index = aliasSample(cur->transProbTable, cur->aliasTable, vertex[src].outDegree);
         }
         walk[i] = vertex[src].getDstNodeId(index);
-        if(vertex[walk[i]].inValue >= this->stdValue) {
-            hit++;
-        } 
-        else {
-            miss++;
-        }
     }
     return walk;
 }
@@ -220,7 +280,7 @@ void Graph::countMemLoc()
             // edgeSize += malloc_usable_size(cur->transProbTable);
             // edgeSize += malloc_usable_size(cur->aliasTable);
 
-            if(this->vertex[i].inValue >= this->stdValue) {
+            if(cur->isInDram) {
                 dramSize += (this->vertex[cur->dstNodeId].outDegree) * (sizeof(float));
                 dramSize += (this->vertex[cur->dstNodeId].outDegree) * (sizeof(int));
             }
@@ -228,7 +288,6 @@ void Graph::countMemLoc()
                 nvmSize += (this->vertex[cur->dstNodeId].outDegree) * (sizeof(float));
                 nvmSize += (this->vertex[cur->dstNodeId].outDegree) * (sizeof(int));
             }
-
 
 
             // edgeApply += (this->vertex[cur->dstNodeId].outDegree) * (sizeof(float));

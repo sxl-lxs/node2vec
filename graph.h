@@ -10,7 +10,7 @@ struct Graph
     int p, q;
     bool isDirected, isWeighted;
     Node *vertex;
-    double stdValue, ratio;
+    double stdValue, vertexRatio, edgeRatio;
     size_t hit, miss;
 
     //根据参数设置属性并申请顶点集空间
@@ -36,8 +36,11 @@ struct Graph
     //设置每个顶点的inValue
     void setInvalue();
 
-    //根据设置的比例来比较所有顶点的inValue值，获得基准inValue
-    void getStdInvalue();
+    //根据设置的比例来比较所有顶点的inValue值，获得并设置基准inValue
+    void setStdInvalue();
+
+    //用于为边结点设置标记，指导其转移概率表和别名表的放置位置
+    void setMemLocTag();
 
     void countMemLoc();
 };

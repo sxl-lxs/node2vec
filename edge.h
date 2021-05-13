@@ -8,6 +8,7 @@ struct Edge
     float *transProbTable;
     int *aliasTable;
     Edge *nextEdge;
+    bool isInDram;
 
     Edge(int dst, float weight);
     void edgePreprocess(int src, Graph* G);
