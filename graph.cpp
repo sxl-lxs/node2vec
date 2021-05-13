@@ -261,13 +261,32 @@ void Graph::countMemLoc()
 
 void Graph::countDramVertex() {
     int greaterCount = 0, sameCount = 0;
+    size_t dramDegreeSum = 0, nvmDegreeSum = 0; //归属于不同类型顶点的弧结点的度数和
+    size_t dramOutDegree = 0, nvmOutDegree = 0; //两种类型顶点的出度和
     for (int i = 0; i < vertexNum; i++)
     {
         if(vertex[i].inValue > this->stdValue)
             greaterCount++;
         else if(vertex[i].inValue == this->stdValue)
             sameCount++;
+
+        if(vertex[i].inValue >= this->stdValue)
+            dramOutDegree += vertex[i].outDegree;
+        else
+            nvmOutDegree += vertex[i].outDegree;
+
+        Edge *cur = vertex[i].firstEdge;
+        while (cur != nullptr)
+        {
+            if(vertex[i].inValue >= this->stdValue)
+                dramDegreeSum += vertex[cur->dstNodeId].outDegree;
+            else
+                nvmDegreeSum += vertex[cur->dstNodeId].outDegree;
+            cur = cur->nextEdge;
+        }
     }
     cout << "greaterCount: " << greaterCount << "    sameCount: " << sameCount << endl;
     cout << "sumCount: " << greaterCount + sameCount << "    stdCount: " << (int)(vertexNum * ratio) << endl;
+    cout << "dramOutDegree: " << dramOutDegree << "    nvmOutDegree: " << nvmOutDegree << endl;
+    cout << "dramDegreeSum: " << dramDegreeSum << "    nvmDegreeSum: " << nvmDegreeSum << endl;
 }
