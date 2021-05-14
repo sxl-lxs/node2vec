@@ -254,12 +254,12 @@ void Graph::countMemLoc()
     cout << "verSetSize: " << verSumSize << "    edgeNodeSumSize: " << edgeSumSize << "    graphSize: " << verSumSize + edgeSumSize << endl;
     cout << "nodeTableSize: " << nodeApply << "    edgeTableSize: " << dramSize + nvmSize << endl;
     // cout << "nodeTableSize: " << nodeSize << "    edgeTableSize: " << edgeSize << endl;
-    cout << "edgeTable_dramSize: " << dramSize << "    edgeTable_nvmSize: " << nvmSize << endl;
-    cout << "dramSumSize: " << verSumSize + edgeSumSize + nodeApply + dramSize << "    nvmSumSize: " << nvmSize << endl << endl;
+    cout << "edgeTable_dramSize: " << dramSize << "    edgeTable_nvmSize: " << nvmSize << "    edgeDramRatio: " << (double)dramSize / (dramSize+ nvmSize) << endl;
+    cout << "dramSumSize: " << verSumSize + edgeSumSize + nodeApply + dramSize << "    nvmSumSize: " << nvmSize 
+    << "    sumDramRatio: " << (double)(verSumSize + edgeSumSize + nodeApply + dramSize) / (verSumSize + edgeSumSize + nodeApply + dramSize + nvmSize) << endl << endl;
 
     // cout << "[version2]dramSize: " << (dramSize + edgeSize / 2) << "   nvmSize: " << (edgeSize / 2) << endl;
     // file.close();
-
 }
 
 void Graph::countDramVertex() {

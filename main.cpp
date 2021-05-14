@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     // cout << "countMemLoc finished!" << endl;
     G.simulateWalk();
     cout << "simulateWalk finished!" << endl;
-    cout << "hit times: " << G.hit << "    miss times: " << G.miss << endl;
+    cout << "hit times: " << G.hit << "    miss times: " << G.miss << "    hitRatio: " << (double)G.hit / (G.hit + G.miss) << endl << endl;
     G.countMemLoc();
     cout << "countMemLoc finished!" << endl;
     G.countDramVertex();
