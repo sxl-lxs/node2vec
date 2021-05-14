@@ -243,7 +243,7 @@ void Graph::countMemLoc()
         // file << endl;
     }
 
-    dramSize += verSumSize + edgeSumSize + nodeApply;
+    //dramSize += verSumSize + edgeSumSize + nodeApply;
     // nvmSize = edgeSize;
 
     cout << "nodeDegree: " << nodeDegree << "    edgeDegree: " << edgeDegree << endl;
@@ -251,12 +251,15 @@ void Graph::countMemLoc()
     // cout << "nodeApply(cal): " << nodeApply << "    edgeApply(cal): " << edgeApply << endl;
     // cout << "nodeExtra: " << nodeExtra << "    edgeExtra: " << edgeExtra << endl << endl;
 
-    cout << "verSetSize: " << verSumSize << "    edgeNodeSumSize: " << edgeSumSize << endl;
+    cout << "verSetSize: " << verSumSize << "    edgeNodeSumSize: " << edgeSumSize << "    graphSize: " << verSumSize + edgeSumSize << endl;
+    cout << "nodeTableSize: " << nodeApply << "    edgeTableSize: " << dramSize + nvmSize << endl;
     // cout << "nodeTableSize: " << nodeSize << "    edgeTableSize: " << edgeSize << endl;
-    cout << "dramSize: " << dramSize << "   nvmSize: " << nvmSize << endl;
+    cout << "edgeTable_dramSize: " << dramSize << "    edgeTable_nvmSize: " << nvmSize << endl;
+    cout << "dramSumSize: " << verSumSize + edgeSumSize + nodeApply + dramSize << "    nvmSumSize: " << nvmSize << endl << endl;
 
     // cout << "[version2]dramSize: " << (dramSize + edgeSize / 2) << "   nvmSize: " << (edgeSize / 2) << endl;
     // file.close();
+
 }
 
 void Graph::countDramVertex() {
@@ -287,6 +290,6 @@ void Graph::countDramVertex() {
     }
     cout << "greaterCount: " << greaterCount << "    sameCount: " << sameCount << endl;
     cout << "sumCount: " << greaterCount + sameCount << "    stdCount: " << (int)(vertexNum * ratio) << endl;
-    cout << "dramOutDegree: " << dramOutDegree << "    nvmOutDegree: " << nvmOutDegree << endl;
-    cout << "dramDegreeSum: " << dramDegreeSum << "    nvmDegreeSum: " << nvmDegreeSum << endl;
+    cout << "[vertext]: " << "dramOutDegree: " << dramOutDegree << "    nvmOutDegree: " << nvmOutDegree << endl;
+    cout << "[edge]: " << "dramDegreeSum: " << dramDegreeSum << "    nvmDegreeSum: " << nvmDegreeSum << endl;
 }
