@@ -11,7 +11,7 @@
 #include <queue>
 
 Graph::Graph(char **args) : vertexNum(atoi(args[1])), edgeNum(atoi(args[2])), walkLen(atoi(args[3])), walkNum(atoi(args[4])),
-                            p(atoi(args[5])), q(atoi(args[6])), isDirected(atoi(args[7])), isWeighted(atoi(args[8])), 
+                            p(atof(args[5])), q(atof(args[6])), isDirected(atoi(args[7])), isWeighted(atoi(args[8])), 
                             ratio(atof(args[10])), hit(0), miss(0)
 {
     vertex = new Node[vertexNum];

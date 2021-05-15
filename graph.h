@@ -7,7 +7,7 @@ struct Graph
 {
     int vertexNum, edgeNum;
     int walkLen, walkNum;
-    int p, q;
+    float p, q;
     bool isDirected, isWeighted;
     Node *vertex;
     double stdValue, ratio;
