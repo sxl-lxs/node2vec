@@ -102,7 +102,7 @@ void Graph::setMemLocTag()
         else {
             //inValue优先 并结合weight值(舍弃)
             //只将invalue较大且weight较大的放在dram
-            if (vertex[i].inValue < this->stdValue || vertex[i].outDegree * edgeRatio == 0)
+            if (vertex[i].inValue < this->stdValue || (int)(vertex[i].outDegree * edgeRatio) == 0)
             {
                 Edge *cur = vertex[i].firstEdge;
                 while (cur != nullptr)
