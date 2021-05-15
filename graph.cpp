@@ -11,7 +11,7 @@
 #include <queue>
 
 Graph::Graph(char **args) : vertexNum(atoi(args[1])), edgeNum(atoi(args[2])), walkLen(atoi(args[3])), walkNum(atoi(args[4])),
-                            p(atoi(args[5])), q(atoi(args[6])), isDirected(atoi(args[7])), isWeighted(atoi(args[8])), 
+                            p(atof(args[5])), q(atof(args[6])), isDirected(atoi(args[7])), isWeighted(atoi(args[8])), 
                             vertexRatio(atof(args[10])), edgeRatio(atof(args[11])), hit(0), miss(0)
 {
     vertex = new Node[vertexNum];
@@ -100,13 +100,14 @@ void Graph::setMemLocTag()
             }
         }
         else {
-            //inValue优先 并结合weight值
-            if (vertex[i].inValue >= this->stdValue)
+            //inValue优先 并结合weight值(舍弃)
+            //只将invalue较大且weight较大的放在dram
+            if (vertex[i].inValue < this->stdValue)
             {
                 Edge *cur = vertex[i].firstEdge;
                 while (cur != nullptr)
                 {
-                    cur->isInDram = true;
+                    cur->isInDram = false;
                     cur = cur->nextEdge;
                 }
             }
@@ -303,7 +304,7 @@ void Graph::countMemLoc()
         // file << endl;
     }
 
-    dramSize += verSumSize + edgeSumSize + nodeApply;
+    // dramSize += verSumSize + edgeSumSize + nodeApply;
     // nvmSize = edgeSize;
 
     cout << "nodeDegree: " << nodeDegree << "    edgeDegree: " << edgeDegree << endl;
@@ -311,9 +312,13 @@ void Graph::countMemLoc()
     // cout << "nodeApply(cal): " << nodeApply << "    edgeApply(cal): " << edgeApply << endl;
     // cout << "nodeExtra: " << nodeExtra << "    edgeExtra: " << edgeExtra << endl << endl;
 
-    cout << "verSetSize: " << verSumSize << "    edgeNodeSumSize: " << edgeSumSize << endl;
+    
+    cout << "verSetSize: " << verSumSize << "    edgeNodeSumSize: " << edgeSumSize << "    graphSize: " << verSumSize + edgeSumSize << endl;
     // cout << "nodeTableSize: " << nodeSize << "    edgeTableSize: " << edgeSize << endl;
-    cout << "dramSize: " << dramSize << "   nvmSize: " << nvmSize << endl;
+    cout << "nodeTableSize: " << nodeApply << "   edgeTableSize: " << dramSize + nvmSize << endl;
+    cout << "edgeTable_dramSize: " << dramSize << "   edgeTable_nvmSize: " << nvmSize << "    edgeDramRatio: " << (double)dramSize / (dramSize + nvmSize) << endl;
+    cout << "dramSumSize: " << verSumSize + edgeSumSize + nodeApply + dramSize << "   nvmSumSize: " << nvmSize
+         << "    sumDramRatio: " << (double)(verSumSize + edgeSumSize + nodeApply + dramSize) / (verSumSize + edgeSumSize + nodeApply + dramSize + nvmSize) << endl;
 
     // cout << "[version2]dramSize: " << (dramSize + edgeSize / 2) << "   nvmSize: " << (edgeSize / 2) << endl;
     // file.close();
