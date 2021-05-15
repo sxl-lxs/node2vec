@@ -91,8 +91,10 @@ void Graph::setMemLocTag()
     cout << " come in" << endl;
     for (int i = 0; i < vertexNum; i++)
     {
+        cout << "1" << endl;
         //无权图则不考虑权值
         if(!this->isWeighted) {
+            cout << "2" << endl;
             Edge *cur = vertex[i].firstEdge;
             while (cur != nullptr)
             {
@@ -101,10 +103,12 @@ void Graph::setMemLocTag()
             }
         }
         else {
+            cout << "3" << endl;
             //inValue优先 并结合weight值(舍弃)
             //只将invalue较大且weight较大的放在dram
             if (vertex[i].inValue < this->stdValue || vertex[i].outDegree * edgeRatio == 0)
             {
+                cout << "4" << endl;
                 Edge *cur = vertex[i].firstEdge;
                 while (cur != nullptr)
                 {
@@ -113,6 +117,7 @@ void Graph::setMemLocTag()
                 }
             }
             else {
+                cout << "5" << endl;
                 int edgeSum = this->vertex[i].outDegree * edgeRatio;
                 priority_queue<float, vector<float>, greater<float>> q;
                 Edge *cur = vertex[i].firstEdge;
@@ -120,12 +125,15 @@ void Graph::setMemLocTag()
                 {
                     if (q.size() < edgeSum)
                     {
+                        cout << "6" << endl;
                         q.push(cur->weight);
                     }
                     else
                     {
+                        cout << "7" << endl;
                         if (q.top() < cur->weight)
                         {
+                            cout << "8" << endl;
                             q.pop();
                             q.push(cur->weight);
                         }
@@ -136,13 +144,16 @@ void Graph::setMemLocTag()
                 if(q.empty())
                     cout << " bug" << endl;
 
+                cout << "9" << endl;
                 float stdWeight = q.top();  //小顶堆的top即为用于比较的标准值 
                 cur = vertex[i].firstEdge;
                 while (cur != nullptr)
                 {
+                    cout << "10" << endl;
                     cur->isInDram = (cur->weight >= stdWeight);
                     cur = cur->nextEdge;
                 }
+                cout << "11" << endl;
             }
         }
     }
