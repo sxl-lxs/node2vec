@@ -88,6 +88,7 @@ void Graph::setStdInvalue()
 
 void Graph::setMemLocTag()
 {
+    cout << " come in" << endl;
     for (int i = 0; i < vertexNum; i++)
     {
         //无权图则不考虑权值
@@ -142,6 +143,7 @@ void Graph::setMemLocTag()
             }
         }
     }
+    cout << " come out" << endl;
 }
 
 void Graph::preprocess()
