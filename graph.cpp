@@ -102,7 +102,7 @@ void Graph::setMemLocTag()
         else {
             //inValue优先 并结合weight值(舍弃)
             //只将invalue较大且weight较大的放在dram
-            if (vertex[i].inValue < this->stdValue)
+            if (vertex[i].inValue < this->stdValue || vertex[i].outDegree * edgeRatio == 0)
             {
                 Edge *cur = vertex[i].firstEdge;
                 while (cur != nullptr)
@@ -131,8 +131,8 @@ void Graph::setMemLocTag()
                     }
                     cur = cur->nextEdge;
                 }
-
-                float stdWeight = q.top();  //小顶堆的top即为用于比较的标准值
+                
+                float stdWeight = q.top();  //小顶堆的top即为用于比较的标准值 
                 cur = vertex[i].firstEdge;
                 while (cur != nullptr)
                 {
