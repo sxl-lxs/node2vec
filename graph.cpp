@@ -133,6 +133,9 @@ void Graph::setMemLocTag()
                     cur = cur->nextEdge;
                 }
                 
+                if(q.empty())
+                    cout << " bug" << endl;
+
                 float stdWeight = q.top();  //小顶堆的top即为用于比较的标准值 
                 cur = vertex[i].firstEdge;
                 while (cur != nullptr)
