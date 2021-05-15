@@ -10,7 +10,7 @@
 #include <malloc.h>
 
 Graph::Graph(char **args) : vertexNum(atoi(args[1])), edgeNum(atoi(args[2])), walkLen(atoi(args[3])), walkNum(atoi(args[4])),
-                            p(atoi(args[5])), q(atoi(args[6])), isDirected(atoi(args[7])), isWeighted(atoi(args[8]))
+                            p(atof(args[5])), q(atof(args[6])), isDirected(atoi(args[7])), isWeighted(atoi(args[8]))
 {
     vertex = new Node[vertexNum];
     initialGraph(args[9]);
@@ -197,10 +197,10 @@ void Graph::countMemLoc()
 
     cout << "nodeDegree: " << nodeDegree << "    edgeDegree: " << edgeDegree << endl;
     // cout << "nodeCalSize: " << (nodeDegree * (sizeof(float)) + nodeDegree * (sizeof(int))) << "    edgeCalSize: " << (edgeDegree * (sizeof(float)) + edgeDegree * (sizeof(int))) << endl;
-    cout << "nodeApply: " << nodeApply << "    edgeApply: " << edgeApply << endl;
+    cout << "nodeApply: " << nodeApply << "    edgeApply: " << edgeApply << "    tableSumSize: " << nodeApply + edgeApply << endl;
     // cout << "nodeExtra: " << nodeExtra << "    edgeExtra: " << edgeExtra << endl << endl;
 
-    cout << "verSetSize: " << verSumSize << "    edgeNodeSumSize: " << edgeSumSize << endl;
+    cout << "verSetSize: " << verSumSize << "    edgeNodeSumSize: " << edgeSumSize << "    graphSize: " << verSumSize + edgeSumSize << endl;
     // cout << "nodeTableSize: " << nodeSize << "    edgeTableSize: " << edgeSize << endl;
     cout << "dramSize: " << dramSize << "   nvmSize: " << nvmSize << endl;
 
