@@ -2,8 +2,14 @@
 #include "node.h"
 #include "edge.h"
 #include "queue.h"
+#include "pmalloc.h"
 
 Node::Node() : outDegree(0), firstEdge(nullptr) {}
+
+void *Node::operator new(size_t size)
+{
+    return pmalloc(size);
+}
 
 void Node::insertEdge(int dst, float weight)
 {
@@ -23,8 +29,8 @@ void Node::insertEdge(int dst, float weight)
 
 void Node::nodePreprocess()
 {
-    this->transProbTable = (float *)malloc(sizeof(float) * outDegree);
-    this->aliasTable = (int *)malloc(sizeof(int) * outDegree);
+    this->transProbTable = (float *)pmalloc(sizeof(float) * outDegree);
+    this->aliasTable = (int *)pmalloc(sizeof(int) * outDegree);
     // for(int i = 0; i < outDegree; i++)
     //     this->aliasTable[i] = -1;
         

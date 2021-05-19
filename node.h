@@ -10,6 +10,8 @@ struct Node
 
     Node();
 
+    void *operator new(size_t size);
+    
     void insertEdge(int dst, float weight);
 
     void nodePreprocess();

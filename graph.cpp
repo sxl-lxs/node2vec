@@ -8,6 +8,7 @@
 #include "node.h"
 #include "edge.h"
 #include <malloc.h>
+#include "pmalloc.h"
 
 Graph::Graph(char **args) : vertexNum(atoi(args[1])), edgeNum(atoi(args[2])), walkLen(atoi(args[3])), walkNum(atoi(args[4])),
                             p(atof(args[5])), q(atof(args[6])), isDirected(atoi(args[7])), isWeighted(atoi(args[8]))
@@ -16,10 +17,10 @@ Graph::Graph(char **args) : vertexNum(atoi(args[1])), edgeNum(atoi(args[2])), wa
     initialGraph(args[9]);
 }
 
-// void *operator new(size_t size)
-// {
-//     return malloc(size);
-// }
+void *Graph::operator new (size_t size)
+{
+    return pmalloc(size);
+}
 
 void Graph::initialGraph(char *filename)
 {
@@ -155,7 +156,7 @@ void Graph::countMemLoc()
 
     size_t dramSize = 0, nvmSize = 0;
     size_t verSumSize = 0, edgeSumSize = 0;
-    verSumSize += malloc_usable_size(this->vertex); //顶点集大小
+    //verSumSize += malloc_usable_size(this->vertex); //顶点集大小
 
     for (int i = 0; i < this->vertexNum; i++)
     {
@@ -174,7 +175,7 @@ void Graph::countMemLoc()
         Edge *cur = this->vertex[i].firstEdge;
         while (cur != nullptr)
         {
-            edgeSumSize += malloc_usable_size(cur); //边结点大小
+            //edgeSumSize += malloc_usable_size(cur); //边结点大小
 
             edgeDegree += this->vertex[cur->dstNodeId].outDegree;
             // edgeSize += malloc_usable_size(cur->transProbTable);

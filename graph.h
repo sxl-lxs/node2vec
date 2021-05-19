@@ -14,7 +14,7 @@ struct Graph
     //根据参数设置属性并申请顶点集空间
     Graph(char** args);
 
-    // void *operator new(size_t size);
+    void *operator new(size_t size);
 
     //根据文件名读取边集构建图的内部表示
     void initialGraph(char* filename);
